@@ -101,6 +101,8 @@ document.addEventListener('click', showRes); */
 
 const resultField = document.querySelector('.result-field');
 const inputField = document.querySelector('.input-field');
+const close = createElement('div', 'close');
+
 
 function createElement(elementTag, elementClass) {
     const element = document.createElement(elementTag);
@@ -108,14 +110,39 @@ function createElement(elementTag, elementClass) {
             element.classList.add(elementClass);
         }
         return element;
+};
+
+function clearDropBlock() {
+    const searchedElements = inputField.querySelectorAll('div');
+    searchedElements.forEach(item => item.remove())
 }
 
 async function search() {
     const inputData = inputField.querySelector('input');
+       /*  const searchedElements = inputField.querySelectorAll('div'); */
+        clearDropBlock();
+
         const fetchData = await fetch(`https://api.github.com/search/repositories?q=${inputData.value}`).then(res => res.json().then(res => res.items));
     for (let i=0; i<5; i++){        
         const variant = createElement('div', 'variant-block');
-        variant.insertAdjacentHTML("afterbegin", `<p class='p'>${fetchData[i].name}</p>`);
+        variant.insertAdjacentHTML("afterbegin", `<button>${fetchData[i].name}</button>`);
+        variant.addEventListener('click', function () {
+            const result = createElement('div', 'result-block');
+            result.insertAdjacentHTML("afterbegin", `<p class='p'>Name: ${fetchData[i].name}</p>  <p class='clear'>Owner: ${fetchData[i].owner.login}.login</p>  <p>Stars: ${fetchData[i].stargazers_count}</p>`);
+            const closeBtn = close.cloneNode(true);
+            
+            closeBtn.addEventListener('click', function(event){
+                
+                event.target.parentElement.remove();
+            });
+            result.append(closeBtn);
+
+            
+            resultField.append(result);
+            inputData.value = '';
+            clearDropBlock();
+        })
+
         inputField.append(variant);
     }
 }
@@ -132,5 +159,5 @@ function debounce(fn, timeout) {
     };
 }
 
-const debouncedInput = debounce(search, 700)
+const debouncedInput = debounce(search, 1000)
 inputField.addEventListener('keyup', debouncedInput);
