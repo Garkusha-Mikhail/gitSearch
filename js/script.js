@@ -128,7 +128,7 @@ async function search() {
         variant.insertAdjacentHTML("afterbegin", `<button>${fetchData[i].name}</button>`);
         variant.addEventListener('click', function () {
             const result = createElement('div', 'result-block');
-            result.insertAdjacentHTML("afterbegin", `<p class='p'>Name: ${fetchData[i].name}</p>  <p class='clear'>Owner: ${fetchData[i].owner.login}.login</p>  <p>Stars: ${fetchData[i].stargazers_count}</p>`);
+            result.insertAdjacentHTML("afterbegin", `    <div> <p class='p'>Name: ${fetchData[i].name}</p>  <p class='clear'>Owner: ${fetchData[i].owner.login}.login</p>  <p>Stars: ${fetchData[i].stargazers_count}</p></div>`);
             const closeBtn = close.cloneNode(true);
             
             closeBtn.addEventListener('click', function(event){

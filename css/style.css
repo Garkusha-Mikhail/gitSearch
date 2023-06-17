@@ -7,15 +7,34 @@
 .base {
   padding: 74px;
   background-color: #c4c4c4;
+  min-height: 763px;
 }
 
 .input-field {
-  padding: 20px;
+  margin-bottom: 20px;
+}
+
+button {
+  width: 500px;
+  height: 44px;
+  border: 1px solid #000;
+  font-size: 28px;
+  text-align: left;
+}
+
+input {
+  height: 60px;
+  width: 500px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 48px;
 }
 
 .result-field {
   display: flex;
   flex-direction: column;
+  min-width: 500px;
 }
 .variant-block {
   width: 500px;
@@ -26,19 +45,23 @@ p {
 }
 
 .result-block {
-  margin: 10px;
   padding: 5px;
   font-size: 24px;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: space-between;
   width: 500px;
   height: 100px;
   background-color: #e27beb;
+  overflow: hidden;
+  border: 1px solid #000;
 }
+/* .result-block:first-child {
+  width: 400px;
+} */
 
 .close {
   width: 50px;
   height: 50px;
-  background-color: red;
+  background-image: url(/img/deleteicon.png);
 }
