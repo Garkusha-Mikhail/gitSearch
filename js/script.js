@@ -123,19 +123,22 @@ async function search(event) {
     
     
     const inputData = inputField.querySelector('input');
-        inputData.value.split('').forEach(item => {
-            if (item.charCodeAt(0) > 122)
-            return alert('введены не латинские буквы или цифры')})
-        
-              
-        /* if (event.code === 'Space' || inputData.value.length == 0) {
+        let toFetch = inputData.value.trim();
+        for (let i = 0; i<toFetch.length; i++) {
+            if(toFetch[i].charCodeAt(0) > 122) {
+                inputData.value = '';
+                clearDropBlock();   
+            return alert('введены не латинские буквы или цифры');    
+            }
+        }
+        if (toFetch.length == 0) {
             inputData.value = '';
             clearDropBlock();
-        return console.log('event')}; */
+        return console.log('event')};
 
         clearDropBlock();
 
-        const fetchData = await fetch(`https://api.github.com/search/repositories?q=${inputData.value}`)
+        const fetchData = await fetch(`https://api.github.com/search/repositories?q=${toFetch}`)
         .then(res => res.json())
         .then(res => res.items);
         if (fetchData.length < 1) {
