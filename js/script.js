@@ -17,7 +17,7 @@ function clearDropBlock() { //функция очистки выпадающег
 }
 
 async function search(event) { //асинхронная функция поиска
-    const inputData = inputField.querySelector('input'); //получаем доступ к элементу поля ввода
+    try{const inputData = inputField.querySelector('input'); //получаем доступ к элементу поля ввода
         let toFetch = inputData.value.trim(); //записываем в переменную результат ввода без пробелов в начале и конце
         for (let i = 0; i<toFetch.length; i++) { //проверка на латиницу и цифры
             if(toFetch[i].charCodeAt(0) > 122) {
@@ -68,6 +68,10 @@ async function search(event) { //асинхронная функция поис�
         variant.insertAdjacentHTML("afterbegin", `<button>${fetchData[i].name}</button>`); //наполняем его контентом
         variant.addEventListener('click', createResultBlock); // вешаем листнер на кнопку варианта выпадающего меню
         inputField.append(variant); //апендим вариант в блок
+    }}
+    
+    catch(error) {
+        console.log(error);
     }
 }
 
