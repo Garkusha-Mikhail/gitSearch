@@ -39,6 +39,7 @@ input {
 .variant-block {
   width: 500px;
   font-size: 24px;
+  overflow: hidden;
 }
 p {
   margin: 0;
