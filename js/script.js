@@ -17,7 +17,8 @@ function clearDropBlock() { //функция очистки выпадающег
 }
 
 async function search(event) { //асинхронная функция поиска
-    try{const inputData = inputField.querySelector('input'); //получаем доступ к элементу поля ввода
+    try{
+        const inputData = inputField.querySelector('input'); //получаем доступ к элементу поля ввода
         let toFetch = inputData.value.trim(); //записываем в переменную результат ввода без пробелов в начале и конце
         for (let i = 0; i<toFetch.length; i++) { //проверка на латиницу и цифры
             if(toFetch[i].charCodeAt(0) > 122) {
