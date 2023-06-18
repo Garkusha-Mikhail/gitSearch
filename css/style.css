@@ -7,7 +7,7 @@
 .base {
   padding: 74px;
   background-color: #c4c4c4;
-  min-height: 763px;
+  min-height: 500px;
 }
 
 .input-field {
@@ -56,9 +56,10 @@ p {
   overflow: hidden;
   border: 1px solid #000;
 }
-/* .result-block:first-child {
+.result-info {
   width: 400px;
-} */
+  overflow: hidden;
+}
 
 .close {
   width: 50px;

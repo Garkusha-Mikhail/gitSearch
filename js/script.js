@@ -113,35 +113,65 @@ function createElement(elementTag, elementClass) {
 };
 
 function clearDropBlock() {
+    
     const searchedElements = inputField.querySelectorAll('div');
     searchedElements.forEach(item => item.remove())
 }
 
-async function search() {
+async function search(event) {
+    
+    
+    
     const inputData = inputField.querySelector('input');
-       /*  const searchedElements = inputField.querySelectorAll('div'); */
+        inputData.value.split('').forEach(item => {
+            if (item.charCodeAt(0) > 122)
+            return alert('введены не латинские буквы или цифры')})
+        
+              
+        /* if (event.code === 'Space' || inputData.value.length == 0) {
+            inputData.value = '';
+            clearDropBlock();
+        return console.log('event')}; */
+
         clearDropBlock();
 
-        const fetchData = await fetch(`https://api.github.com/search/repositories?q=${inputData.value}`).then(res => res.json().then(res => res.items));
-    for (let i=0; i<5; i++){        
-        const variant = createElement('div', 'variant-block');
-        variant.insertAdjacentHTML("afterbegin", `<button>${fetchData[i].name}</button>`);
-        variant.addEventListener('click', function () {
+        const fetchData = await fetch(`https://api.github.com/search/repositories?q=${inputData.value}`)
+        .then(res => res.json())
+        .then(res => res.items);
+        if (fetchData.length < 1) {
+            inputData.value = '';
+            return alert('такого аккаунта не существует')
+        }
+
+        
+        
+    for (let i=0; i<5; i++){  
+        if (fetchData.length < i+1) {
+            return }
+        
+        function createDropBlock() {
             const result = createElement('div', 'result-block');
-            result.insertAdjacentHTML("afterbegin", `    <div> <p class='p'>Name: ${fetchData[i].name}</p>  <p class='clear'>Owner: ${fetchData[i].owner.login}.login</p>  <p>Stars: ${fetchData[i].stargazers_count}</p></div>`);
+            const resInfo = createElement('div', 'result-info');
+            resInfo.insertAdjacentHTML("afterbegin", `    <div> <p class='p'>Name: ${fetchData[i].name}</p>  <p class='clear'>Owner: ${fetchData[i].owner.login}.login</p>  <p>Stars: ${fetchData[i].stargazers_count}</p></div>`);
+            result.append(resInfo);
             const closeBtn = close.cloneNode(true);
-            
-            closeBtn.addEventListener('click', function(event){
-                
+            function closeB(event) {
                 event.target.parentElement.remove();
-            });
+                variant.removeEventListener('click', createDropBlock);
+                closeBtn.removeEventListener('click', closeB);
+            }
+            closeBtn.addEventListener('click', closeB);
             result.append(closeBtn);
 
             
             resultField.append(result);
             inputData.value = '';
             clearDropBlock();
-        })
+        }
+        
+        const variant = createElement('div', 'variant-block');
+        variant.insertAdjacentHTML("afterbegin", `<button>${fetchData[i].name}</button>`);
+        variant.addEventListener('click', createDropBlock)
 
         inputField.append(variant);
     }
@@ -159,5 +189,6 @@ function debounce(fn, timeout) {
     };
 }
 
-const debouncedInput = debounce(search, 1000)
+const debouncedInput = debounce(search, 700);
 inputField.addEventListener('keyup', debouncedInput);
+
